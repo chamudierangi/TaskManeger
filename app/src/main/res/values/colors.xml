@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_light">#F5F5F5</color>
     <color name="primary_blue">#3F51B5</color>
+    <color name="white_transparent">#B3FFFFFF</color>
+    <color name="task_green">#4CAF50</color>
 </resources>
