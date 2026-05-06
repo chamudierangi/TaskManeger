@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TaskManeger</string>
+    <string name="chamudierngicreation">chamudierngicreation</string>
+    <string name="get_strated">Get strated</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="chamudierangicreation">chamudierangicreation</string>
+    <string name="welcome_sentence">Master your time, master your life. Let\'s get started!</string>
+</resources>
