@@ -7,4 +7,6 @@
     <string name="password">Password</string>
     <string name="chamudierangicreation">chamudierangicreation</string>
     <string name="welcome_sentence">Master your time, master your life. Let\'s get started!</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
 </resources>

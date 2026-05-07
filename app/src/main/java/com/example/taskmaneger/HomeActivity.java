@@ -49,7 +49,17 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         taskList = new ArrayList<>();
-        taskAdapter = new TaskAdapter(taskList);
+        taskAdapter = new TaskAdapter(taskList, new TaskAdapter.OnTaskActionListener() {
+            @Override
+            public void onUpdate(Task task) {
+                showUpdateTaskDialog(task);
+            }
+
+            @Override
+            public void onDelete(Task task) {
+                showDeleteTaskDialog(task);
+            }
+        });
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksRecyclerView.setAdapter(taskAdapter);
 
@@ -114,6 +124,71 @@ public class HomeActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         builder.create().show();
+    }
+
+    private void showUpdateTaskDialog(Task task) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_task, null);
+        builder.setView(dialogView);
+
+        TextView dialogTitle = new TextView(this);
+        dialogTitle.setText("Update Task");
+        dialogTitle.setPadding(20, 20, 20, 20);
+        dialogTitle.setTextSize(20);
+        builder.setCustomTitle(dialogTitle);
+
+        EditText editTaskTitle = dialogView.findViewById(R.id.editTaskTitle);
+        EditText editTaskDate = dialogView.findViewById(R.id.editTaskDate);
+
+        editTaskTitle.setText(task.getTitle());
+        editTaskDate.setText(task.getDate());
+
+        editTaskDate.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            // Try to parse existing date
+            String[] parts = task.getDate().split("-");
+            int year = parts.length == 3 ? Integer.parseInt(parts[0]) : calendar.get(Calendar.YEAR);
+            int month = parts.length == 3 ? Integer.parseInt(parts[1]) - 1 : calendar.get(Calendar.MONTH);
+            int day = parts.length == 3 ? Integer.parseInt(parts[2]) : calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(HomeActivity.this,
+                    (view, year1, month1, dayOfMonth) -> {
+                        String selectedDate = year1 + "-" + String.format("%02d", (month1 + 1)) + "-" + String.format("%02d", dayOfMonth);
+                        editTaskDate.setText(selectedDate);
+                    }, year, month, day);
+            datePickerDialog.show();
+        });
+
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String title = editTaskTitle.getText().toString().trim();
+            String date = editTaskDate.getText().toString().trim();
+
+            if (!title.isEmpty() && !date.isEmpty()) {
+                task.setTitle(title);
+                task.setDate(date);
+                databaseReference.child(task.getId()).setValue(task);
+                Toast.makeText(HomeActivity.this, "Task Updated", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(HomeActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+        builder.create().show();
+    }
+
+    private void showDeleteTaskDialog(Task task) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Task")
+                .setMessage("Are you sure you want to delete this task?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    databaseReference.child(task.getId()).removeValue();
+                    Toast.makeText(HomeActivity.this, "Task Deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void loadTasks() {

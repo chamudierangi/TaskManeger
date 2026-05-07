@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +16,16 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<Task> taskList;
+    private OnTaskActionListener listener;
 
-    public TaskAdapter(List<Task> taskList) {
+    public interface OnTaskActionListener {
+        void onUpdate(Task task);
+        void onDelete(Task task);
+    }
+
+    public TaskAdapter(List<Task> taskList, OnTaskActionListener listener) {
         this.taskList = taskList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -48,6 +56,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 ref.child("completed").setValue(isChecked);
             }
         });
+
+        holder.editTask.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onUpdate(task);
+            }
+        });
+
+        holder.deleteTask.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDelete(task);
+            }
+        });
     }
 
     private void updateStrikeThrough(TextView textView, boolean isCompleted) {
@@ -67,12 +87,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView titleTextView;
         TextView dateTextView;
         CheckBox statusCheckBox;
+        ImageView editTask;
+        ImageView deleteTask;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.taskTitle);
             dateTextView = itemView.findViewById(R.id.taskDate);
             statusCheckBox = itemView.findViewById(R.id.taskStatus);
+            editTask = itemView.findViewById(R.id.editTask);
+            deleteTask = itemView.findViewById(R.id.deleteTask);
         }
     }
 }
