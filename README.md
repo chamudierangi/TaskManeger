@@ -18,8 +18,8 @@ A simple and efficient Task Management application built with **Java** and **Fir
 * **Version Control:** Git & GitHub
 
 ##  Demo
-<!-- මෙතනට තමයි ඔයාගේ GIF එක දාන්න ඕනේ -->
-<img src="https://github.com/user-attachments/assets/0823762-a832-492b-9562-f57fe149eb36" width="1152" height="642" alt="demo">
+<img width="1152" height="642" alt="demo" src="https://github.com/user-attachments/assets/70b7d15e-5afe-4275-afa8-1f7e21cc17ef" />
+
 
 ---
 
