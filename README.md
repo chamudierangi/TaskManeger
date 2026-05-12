@@ -1,4 +1,5 @@
-#  TaskManager Android App
+#  TaskManager Android App<img width="1152" height="642" alt="demo" src="https://github.com/user-attachments/assets/22f4c7dc-f472-4aa4-b6ea-85879d2b9992" />
+
 
 A simple and efficient Task Management application built with **Java** and **Firebase**. This app allows users to register and manage their daily tasks with real-time data synchronization.
 
@@ -18,7 +19,7 @@ A simple and efficient Task Management application built with **Java** and **Fir
 
 ##  Demo
 <!-- මෙතනට තමයි ඔයාගේ GIF එක දාන්න ඕනේ -->
-![App Demo](demo.gif)
+<img src="https://github.com/user-attachments/assets/0823762-a832-492b-9562-f57fe149eb36" width="1152" height="642" alt="demo">
 
 ---
 
